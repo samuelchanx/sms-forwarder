@@ -1,0 +1,5 @@
+{
+  "api": "https://script.google.com/macros/s/${API ID}/exec",
+  "transactionMoney": "regex: e.g. xxx(\\d*\\.\\d*)元+",
+  "balance": "regex: e.g. xxx(\\d*\\.\\d*)元+"
+}
