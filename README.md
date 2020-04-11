@@ -4,7 +4,7 @@ Forward Android newly received sms to a specific Google Spreadsheet
 
 ## Getting Started
 
-### Google Spreadsheet
+### Google Spreadsheet Backend
 
 - Follow [this tutorial](https://medium.com/mindorks/storing-data-from-the-flutter-app-google-sheets-e4498e9cda5d) to set up backend API endpoint
 - Note the specific fields in the google app script
@@ -13,6 +13,8 @@ Forward Android newly received sms to a specific Google Spreadsheet
 
 ### Flutter setup
 
-1. Update the `sms_mapping.example.json` to your desired regex
+1. Rename the `sms_mapping.example.json` to `sms_mapping.json` & update your desired regex & api endpoint
 2. Update the data model in `SmsPayload` as needed (delete unused fields & update param names)
-3. Run the app, and you should see newly arrived sms / testing sms
+3. Run the app, and you should see newly arrived sms
+
+- Note that there's a testing function in `main.dart` from `initState()`
