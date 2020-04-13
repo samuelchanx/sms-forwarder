@@ -2,9 +2,11 @@
 import 'package:SMSRouter/api.dart';
 import 'package:SMSRouter/model/Config.dart';
 import 'package:SMSRouter/model/SmsPayload.dart';
+import 'package:SMSRouter/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sms_maintained/sms.dart';
 
@@ -81,14 +83,35 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Consumer<SmsModel>(
           builder: (context, model, child) {
             return ListView.builder(
-                itemCount: model.payloads.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final payload = model.payloads[index];
-                  return ListTile(
-                    title: Text('test, ${payload.transactionAmount}'),
-                    trailing: Text('test, ${payload.date.toIso8601String()}'),
-                  );
-                });
+              itemCount: model.payloads.length,
+              itemBuilder: (BuildContext context, int index) {
+                final payload = model.payloads[index];
+                return Slidable(
+                  actionPane: SlidableBehindActionPane(),
+                  actions: <Widget>[
+                    IconSlideAction(
+                      caption: 'Delete',
+                      color: Colors.blue,
+                      icon: Icons.delete,
+                      onTap: () async {
+                        smsModel.remove(model.payloads[index]);
+                      },
+                    )
+                  ],
+                  key: UniqueKey(),
+                  dismissal: SlidableDismissal(
+                    child: SlidableDrawerDismissal(),
+                    onDismissed: (actionType) {
+                      smsModel.remove(model.payloads[index]);
+                    },
+                  ),
+                  child: ListTile(
+                    title: Text('${payload.transactionAmount}'),
+                    subtitle: Text(payload.smsBody, maxLines: 2, overflow: TextOverflow.ellipsis,),
+                    trailing: Text(payload.date.formatted),
+                  ),
+                );
+              });
           },
         ),
       ),
@@ -111,7 +134,7 @@ class SmsList extends StatefulWidget {
 }
 
 class _SmsListState extends State<SmsList> {
-  
+
   @override
   Widget build(BuildContext context) {
     final smsQuery = SmsQuery();
@@ -150,15 +173,13 @@ class _SmsListState extends State<SmsList> {
                           icon: Icons.send,
                           onTap: () async {
                             await Api.submit(await SmsPayload.from(smss[index].body));
-                            setState(() {
-
-                            });
                           },
                         ),
                       ],
                       child: ListTile(
-                        title: Text('${smss[index].body}'),
-                        subtitle: Text(smss[index].dateSent.toIso8601String()),
+                        title: Text(
+                          smss[index].body, maxLines: 2, overflow: TextOverflow.ellipsis,),
+                        subtitle: Text(smss[index].dateSent.formatted),
                         trailing: sent
                           ? Text('')
                           : Icon(Icons.check_circle),

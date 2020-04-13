@@ -40,6 +40,12 @@ class SmsModel with ChangeNotifier {
     save();
   }
 
+  void remove(SmsPayload payload) {
+    _payloads.remove(payload);
+    notifyListeners();
+    save();
+  }
+
   void removeAll() {
     _payloads.clear();
     notifyListeners();
