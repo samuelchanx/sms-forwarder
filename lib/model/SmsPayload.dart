@@ -90,8 +90,4 @@ class SmsPayload {
   String toParams() {
     return '?date=${date.toIso8601String()}&smsBody=$smsBody&transactionAmount=$transactionAmount&balance=$balance';
   }
-
-
-
-
 }
