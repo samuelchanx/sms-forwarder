@@ -24,7 +24,7 @@ void main() {
 
 final globalKey = GlobalKey<NavigatorState>();
 final smsModel = SmsModel();
-final configModel = ConfigModel();
+final configModel = ConfigModel()..init();
 
 class MyApp extends StatelessWidget {
   @override
@@ -188,7 +188,6 @@ class _SmsListState extends State<SmsList> {
                   );
                 }
               );
-              return Text('Sms count: ${smss.length}, ${smss[0].body}');
             }
             return CircularProgressIndicator();
           },
